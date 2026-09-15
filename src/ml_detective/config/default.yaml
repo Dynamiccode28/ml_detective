@@ -1,0 +1,31 @@
+data_quality:
+  missing_value_warning_threshold_pct: 5.0
+  missing_value_critical_threshold_pct: 30.0
+  missing_value_placeholders: ["", " ", "NA", "N/A", "null", "None", "?", "-"]
+  low_cardinality_numeric_threshold: 10
+  high_cardinality_ratio_threshold: 0.9
+
+outliers:
+  z_score_threshold: 3.0
+  modified_z_score_threshold: 3.5
+  iqr_multiplier: 1.5
+
+leakage:
+  correlation_suspicion_threshold: 0.95
+
+multicollinearity:
+  vif_warning_threshold: 5.0
+  vif_critical_threshold: 10.0
+
+drift:
+  psi_warning_threshold: 0.1
+  psi_critical_threshold: 0.25
+
+health_score:
+  weights:
+    completeness: 0.25
+    consistency: 0.20
+    uniqueness: 0.15
+    validity: 0.20
+    accuracy: 0.10
+    timeliness: 0.10

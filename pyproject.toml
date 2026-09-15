@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ml-detective"
+version = "0.1.0"
+description = "An AI-powered dataset investigator that finds data quality problems before model training."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Adarsh" }
+]
+
+dependencies = [
+    "pandas>=2.2.0,<4.0.0",
+    "numpy>=1.26.0",
+    "scipy>=1.12.0",
+    "statsmodels>=0.14.0",
+    "scikit-learn>=1.4.0",
+    "pydantic>=2.6.0",
+    "pydantic-settings>=2.2.0",
+    "pyyaml>=6.0.1",
+    "python-dotenv>=1.0.1",
+    "sqlalchemy>=2.0.0",
+]
+
+[project.optional-dependencies]
+api = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.27.0",
+]
+dashboard = [
+    "streamlit>=1.32.0",
+    "plotly>=5.19.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "black>=24.1.0",
+    "isort>=5.13.0",
+    "ruff>=0.2.0",
+    "pre-commit>=3.6.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
