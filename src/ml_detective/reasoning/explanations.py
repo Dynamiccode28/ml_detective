@@ -1,9 +1,4 @@
-"""
-Text templates for reasoning/business_impact/model_impact/recommended_fix
-per check type. Kept as simple string templates now -- Phase 10 will let
-an LLM rewrite these more fluently, but templates guarantee a sensible
-baseline explanation exists even without any LLM involved.
-"""
+
 
 from ml_detective.ingestion.findings import ValidationFinding
 
