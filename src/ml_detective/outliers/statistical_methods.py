@@ -38,22 +38,20 @@ def detect_outliers_modified_zscore(series: pd.Series) -> set[int]:
     return set(clean_series[modified_z_scores.abs() > threshold].index)
 
 
-def detect_outliers_iqr(series: pd.Series) -> set[int]:
-    multiplier = get_thresholds()["outliers"]["iqr_multiplier"]
+def detect_outliers_iqr(series):
     clean_series = series.dropna()
 
-    if len(clean_series) < 4:
-        return set()
+    # IQR is only meaningful for numeric data.
+    if not pd.api.types.is_numeric_dtype(clean_series):
+        return []
 
     q1 = clean_series.quantile(0.25)
     q3 = clean_series.quantile(0.75)
+
     iqr = q3 - q1
+    lower_bound = q1 - 1.5 * iqr
+    upper_bound = q3 + 1.5 * iqr
 
-    if iqr == 0:
-        return set()
-
-    lower_bound = q1 - multiplier * iqr
-    upper_bound = q3 + multiplier * iqr
-
-    outlier_mask = (clean_series < lower_bound) | (clean_series > upper_bound)
-    return set(clean_series[outlier_mask].index)
+    return set(clean_series[
+        (clean_series < lower_bound) | (clean_series > upper_bound)
+    ].index.tolist())
