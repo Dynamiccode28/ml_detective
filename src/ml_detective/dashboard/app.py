@@ -7,7 +7,7 @@ process, no HTTP/API layer). Run with: streamlit run src/ml_detective/dashboard/
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-
+from ml_detective.db.repository import list_investigations, save_investigation
 from ml_detective.ingestion.task_detector import guess_target_column
 from ml_detective.orchestrator import run_full_investigation
 from ml_detective.reporting.report_builder import generate_report
@@ -46,14 +46,24 @@ if uploaded_file is not None:
                 results["profile"], results["health_report"], results["detective_findings"], use_llm=use_llm
             )
         st.session_state.results = results
+        save_investigation(
+            dataset_name=uploaded_file.name,
+            n_rows=dataframe.shape[0],
+            n_cols=dataframe.shape[1],
+            target_column=results["target_column"],
+            task_type=results["task_type"],
+            health_report=results["health_report"],
+            detective_findings=results["detective_findings"],
+            report=results["report"],
+        )
 
 if st.session_state.results:
     results = st.session_state.results
     health = results["health_report"]
     detective_findings = results["detective_findings"]
 
-    tab_overview, tab_findings, tab_report, tab_explorer = st.tabs(
-        ["📊 Overview", "🕵️ Findings", "📄 Report", "🔬 Feature Explorer"]
+    tab_overview, tab_findings, tab_report, tab_explorer =     tab_overview, tab_findings, tab_report, tab_explorer, tab_history = st.tabs(
+        ["📊 Overview", "🕵️ Findings", "📄 Report", "🔬 Feature Explorer", "🕐 History"]
     )
 
     with tab_overview:
@@ -119,3 +129,10 @@ if st.session_state.results:
         profile = results["profile"]
         rows = [p.to_dict() for p in profile.column_profiles.values()]
         st.dataframe(pd.DataFrame(rows), use_container_width=True)
+
+    with tab_history:
+        past = list_investigations()
+        if not past:
+            st.info("No past investigations yet.")
+        for inv in past:
+            st.write(f"**{inv.dataset_name}** — {inv.health_score}/100 ({inv.grade}) — {inv.created_at}")
