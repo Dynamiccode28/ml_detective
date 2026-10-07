@@ -4,8 +4,15 @@ Streamlit dashboard -- calls ml_detective modules DIRECTLY (same
 process, no HTTP/API layer). Run with: streamlit run src/ml_detective/dashboard/app.py
 """
 import sys
+import os
 from pathlib import Path
 
+# Resolve the absolute path to the 'src' directory
+ROOT_DIR = Path(__file__).resolve().parents[2]  # Moves up from app.py -> dashboard -> ml_detective -> src
+SRC_DIR = os.path.join(ROOT_DIR, "src")
+
+if SRC_DIR not in sys.path:
+    sys.path.insert(0, SRC_DIR)
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
@@ -15,7 +22,7 @@ from ml_detective.orchestrator import run_full_investigation
 from ml_detective.reporting.report_builder import generate_report
 from ml_detective.config.settings import settings
 
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+
 st.set_page_config(page_title="ML Detective", page_icon="🔍", layout="wide")
 st.title("🔍 ML Detective")
 st.caption("Don't train the model until the detective finishes the investigation.")
