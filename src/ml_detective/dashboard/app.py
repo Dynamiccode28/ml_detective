@@ -4,15 +4,12 @@ Streamlit dashboard -- calls ml_detective modules DIRECTLY (same
 process, no HTTP/API layer). Run with: streamlit run src/ml_detective/dashboard/app.py
 """
 import sys
-import os
 from pathlib import Path
 
-# Resolve the absolute path to the 'src' directory
-ROOT_DIR = Path(__file__).resolve().parents[2]  # Moves up from app.py -> dashboard -> ml_detective -> src
-SRC_DIR = os.path.join(ROOT_DIR, "src")
-
-if SRC_DIR not in sys.path:
-    sys.path.insert(0, SRC_DIR)
+# Adds the 'src' directory to Python's search path dynamically
+SRC_DIR = Path(__file__).resolve().parents[2]
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
