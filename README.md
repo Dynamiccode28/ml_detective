@@ -1,0 +1,1 @@
+automated tool that investigates a CSV dataset for data quality problems — missing values, duplicates, outliers, target leakage, multicollinearity — before anyone trains a model on it, and explains every finding like a detective building a case: evidence, reasoning, severity, confidence, and a recommended fix.
