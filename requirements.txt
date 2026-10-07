@@ -9,15 +9,15 @@ pyyaml>=6.0.1
 python-dotenv>=1.0.1
 sqlalchemy>=2.0.0
 
-[api]
+
 fastapi>=0.110.0
 uvicorn[standard]>=0.27.0
 
-[dashboard]
+
 streamlit>=1.32.0
 plotly>=5.19.0
 
-[dev]
+
 pytest>=8.0.0
 pytest-cov>=4.1.0
 black>=24.1.0
