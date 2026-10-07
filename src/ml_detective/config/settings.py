@@ -8,7 +8,7 @@ for every environment-specific value the project needs.
 from enum import Enum
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
+from pydantic import Field
 
 class AppEnvironment(str, Enum):
     DEVELOPMENT = "development"
@@ -28,6 +28,6 @@ class Settings(BaseSettings):
     llm_provider: str = ""
     llm_api_key: str = ""
     log_level: str = "INFO"
-    groq_api_key: str = ""
+    groq_api_key: str = Field(default="", env="GROQ_API_KEY")
 
 settings = Settings()
