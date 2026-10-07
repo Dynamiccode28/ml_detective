@@ -11,6 +11,7 @@ from ml_detective.db.repository import list_investigations, save_investigation
 from ml_detective.ingestion.task_detector import guess_target_column
 from ml_detective.orchestrator import run_full_investigation
 from ml_detective.reporting.report_builder import generate_report
+from ml_detective.config.settings import settings
 
 st.set_page_config(page_title="ML Detective", page_icon="🔍", layout="wide")
 st.title("🔍 ML Detective")
@@ -62,7 +63,7 @@ if st.session_state.results:
     health = results["health_report"]
     detective_findings = results["detective_findings"]
 
-    tab_overview, tab_findings, tab_report, tab_explorer =     tab_overview, tab_findings, tab_report, tab_explorer, tab_history = st.tabs(
+    tab_overview, tab_findings, tab_report, tab_explorer,tab_history = tab_overview, tab_findings, tab_report, tab_explorer, tab_history = st.tabs(
         ["📊 Overview", "🕵️ Findings", "📄 Report", "🔬 Feature Explorer", "🕐 History"]
     )
 
@@ -118,7 +119,7 @@ if st.session_state.results:
         st.write(report["low_findings"])
         st.subheader("Next Steps")
         st.write(report["next_steps"])
-        st.caption(f"Generated with LLM: {report['generated_with_llm']}")
+        st.caption(f"Generated with LLM: {report['generated_with_llm']} (provider configured: {settings.llm_provider or 'ollama'})")
 
         report_markdown = "\n\n".join(
             f"## {k.replace('_', ' ').title()}\n{v}" for k, v in report.items() if k != "generated_with_llm"

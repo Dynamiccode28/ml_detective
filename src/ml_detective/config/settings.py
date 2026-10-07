@@ -28,6 +28,6 @@ class Settings(BaseSettings):
     llm_provider: str = ""
     llm_api_key: str = ""
     log_level: str = "INFO"
-
+    groq_api_key: str = ""
 
 settings = Settings()
